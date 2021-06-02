@@ -5,3 +5,9 @@ export interface IstaffRegistration {
     password: string,
     position: string
 }
+
+
+export interface Ilogin{
+    email: string,
+    password: string
+}
