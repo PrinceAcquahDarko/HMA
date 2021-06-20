@@ -1,17 +1,21 @@
 import express from 'express'
-import {Controller} from '../controllers/staffRegistration'
+import {RegisterStaff} from '../controllers/staffRegistration'
+import {Authorization} from '../controllers/auth'
 const registerRouter = express.Router()
-let controller = Controller()
-// let Controller = controller()
+let registerStaff = new RegisterStaff()
+let auth = new Authorization()
 
 
 
-export function Router(){
-    // let registerStaff = new RegisterStaff()
+function Router(){
     registerRouter.route('/')
-        .post(controller.saveUser)
-        // .get(registerStaff.amae)
+        .post(registerStaff.saveUser)
+        .get(auth.ifToken, registerStaff.getUser)
+        .put(auth.ifToken, registerStaff.updateUser)
    
 
     return registerRouter
 }
+
+export default Router()
+

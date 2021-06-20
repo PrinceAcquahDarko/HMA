@@ -12,29 +12,29 @@ export class StaffLogin {
         email: '',
         password: '',
     }
-    constructor(){}
+    secret:string = 'foefjeo'
+
+    constructor(){this.loginUser = this.loginUser.bind(this)}
 
     loginUser(req: express.Request, res: express.Response): void{
-        //when i want to reference this.data in this func it doesnt work oo bro
         
-        // this.data = req.body
+        this.data = req.body
 
-        //even when i set the secret as a property on the class(i'll move it to the .env later) and reference it in this method 
-        //it doenst work oo when it compiles it tells me this.data is undefined
-        let secret:string = 'foefjeo'
-        register.findOne({email: req.body.email}, (err: any, user: any)=> {
+      
+     register.findOne({email: this.data.email}, (err: any, user: any)=> {
             if(err)
-                return res.status(400).send({message: 'unable to connect pls try again later'})
+                return res.status(400).send({ message:"Ops sorry please try again"})
             if(!user)
-                return res.status(200).send({message: 'no such email in our database'})
-            bcrypt.compare(req.body.password, user.password, (err: any, isMatch: any) => {
+                return res.status(200).send({ message:"no such user in our database"})
+            bcrypt.compare(this.data.password, user.password, (err: any, isMatch: any) => {
                 if(!isMatch)
-                    return res.status(200).send({message: 'passwords dont much'})
-                let token = jwt.sign({id: user._id}, secret)
-                res.status(200).send({message: 'login successful', token})
+                    return res.status(200)
+                let token = jwt.sign({id: user._id}, this.secret)
+                res.status(200).send({ auth: true, message:"successful"})
             })
         })
     }
+
 
 
 }

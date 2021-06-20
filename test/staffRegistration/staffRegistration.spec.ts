@@ -1,7 +1,8 @@
 import { IstaffRegistration } from "../../interface";
-import chai from 'chai';
 import { StaffRegistration } from "../../build/validations/staffRegitstration";
-let should = chai.should()
+import Sinon from "sinon";
+import chai from 'chai';
+chai.should()
 
 describe('Staff Validation', ()=>{
     let data: IstaffRegistration;
@@ -51,8 +52,16 @@ describe('Staff Validation', ()=>{
 
     it('should be valid if all fields all valid', ()=>{
         let allValid = validFunction.allValid()
-        console.log(allValid)
         allValid.should.be.true
+    })
+
+    it('should at least called one of the validate funcs (valid Email)', ()=>{
+        let spy = Sinon.spy(validFunction, 'validEmail')
+        let allValid = validFunction.allValid()
+        spy.calledOnce.should.be.true
+
+
+
     })
 
     

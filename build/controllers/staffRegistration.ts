@@ -5,29 +5,92 @@ const Register = require('../model/model')
 let bcrypt = require('bcryptjs')
 let jwt = require('jsonwebtoken');
 
-export function Controller() {
-    function saveUser(req: express.Request, res:express.Response){
-        let user = new StaffRegistration(req.body)
+
+export class RegisterStaff{
+    
+    private _data = {
+        firstname: '',
+        lastname: '',
+        password: '',
+        email: '',
+        position: ''
+    }
+    get data(): IstaffRegistration{
+        return this._data
+    }
+
+    set data(data){
+        this._data.email = data.email;
+        this._data.firstname = data.firstname,
+        this._data.lastname = data.lastname,
+        this._data.position = data.position,
+        this._data.password = data.passwordGroup.password
+    }
+    secret = 'foefjeo'
+    constructor(){this.saveUser = this.saveUser.bind(this)}
+
+    saveUser(req: express.Request, res:express.Response){
+        this.data = req.body
+        let user = new StaffRegistration(this.data)
         if(user.allValid()){
-            implementSave(req.body, res)
+            this.implementSave(req.body, res)
         }else{
-            return res.status(400).send({message: 'problem with your form'})
+            return res.status(400).send({ message:"Ops sorry please try again"})
         }
     }
-    function implementSave(data:IstaffRegistration, res: express.Response){
-        let secret = 'jfoejfoe'
-        data.password = bcrypt.hashSync(data.password, 8);
+
+     implementSave(data:IstaffRegistration, res: express.Response){
+  
+        data.password = bcrypt.hashSync(this.data.password, 8);
         let user = new Register(data)
         user.save((err:any, User:any)=> {
             if(err)
-                return res.status(400)
-            console.log(user)
-            let token = jwt.sign({id: User._id}, secret)
-            return res.status(200).send({token, message: 'You been registered successfully'})
+                return res.status(400).send({ message:"Ops sorry please try again"})
+            let token = jwt.sign({id: User._id}, this.secret)
+            return res.status(200).send({message: 'registered successfully', token, auth: true})
         })
     }
 
-    return {saveUser, implementSave}
+    getUser(req: express.Request, res: express.Response):void{
+        Register.find({_id: req.query.id}, (err: any, user: any) => {
+            if(err)
+                return res.status(400).json({"message":"Ops sorry please try again"})
+            if(!user)
+                return res.status(200).json({"message":"not authorized"})
+            return res.status(200).send({message:"user found", user})
+
+
+
+        })
+    }
+
+    updateUser(req: express.Request, res: express.Response): void{
+        Register.findOne({_id: req.query.id}, (err: any, user: any) => {
+            if(err)
+                return res.status(400).json({"message":"Ops sorry please try again"})
+            if(!user)
+                return res.status(200).json({"message":"not authorized"})
+            user.firstname = req.body.firstname,
+            user.lastname = req.body.lastname,
+            user.email = req.body.email,
+            user.position = req.body.position,
+            user.password = bcrypt.hashSync(req.body.passwordGroup.password, 8);
+            user.save((err: any, updated: any) => {
+                if(err)
+                    return res.status(400).json({"message":"Ops sorry please try again"})
+                //
+                return res.status(200).send({message: 'updated successfully'})
+
+            })
+
+
+
+        })
+    }
+
+
 }
+
+
 
 

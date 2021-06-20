@@ -4,6 +4,7 @@ export interface IstaffRegistration {
     email:string,
     password: string,
     position: string
+    passwordGroup?: any;
 }
 
 
