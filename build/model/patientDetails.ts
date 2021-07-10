@@ -8,13 +8,17 @@ const patientDetailsModel = new Schema({
     getLab: {type:String},
     symptoms: {type:String},
     illness: {type: String},
-    appearance: {type: {
-        temperature: Number, weight: Number, height: Number, bloodLevel: Number
-    }},
+    temperature: {type: String}, 
+    weight: {type: String},
+    height: {type: String},
+    bloodLevel: {type: String},
     key: {type: String, required: true},
     nhis: {type: Boolean, required: true},
     done: {type: Boolean},
-    payment: {type: Number}
+    pharmAmount: {type: Number},
+    labAmount: {type: Number},
+    amounPaidt: {type: Number},
+    paid: {type: Boolean}
 })
 
 

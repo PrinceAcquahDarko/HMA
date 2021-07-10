@@ -10,7 +10,7 @@ import patientDetails from './build/routes/patientDetails'
 
 const app = express()
 
-const db = mongoose.connect('mongodb://localhost:HMA', { useNewUrlParser: true, useUnifiedTopology: true  })
+const db = mongoose.connect('mongodb://localhost:HMA', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false  })
 db.then(data => console.log('we connected'))
     .catch(err => console.log('could not connect to database'))
 
