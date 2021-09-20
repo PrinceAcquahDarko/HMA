@@ -4,6 +4,8 @@ import {StaffRegistration} from '../validations/staffRegitstration'
 const Register = require('../model/model')
 let bcrypt = require('bcryptjs')
 let jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 
 
 export class RegisterStaff{
@@ -26,7 +28,7 @@ export class RegisterStaff{
         this._data.position = data.position,
         this._data.password = data.passwordGroup.password
     }
-    secret = 'foefjeo'
+    secret = process.env.SECRETE_KEY
     constructor(){this.saveUser = this.saveUser.bind(this)}
 
     saveUser(req: express.Request, res:express.Response){
@@ -46,8 +48,10 @@ export class RegisterStaff{
         user.save((err:any, User:any)=> {
             if(err)
                 return res.status(400).send({ message:"Ops sorry please try again"})
+
             let token = jwt.sign({id: User._id}, this.secret)
-            return res.status(200).send({message: 'registered successfully', token, auth: true})
+            let fullname = user.firstname + ' ' + user.lastname
+            return res.status(200).send({message: 'registered successfully', token, auth: true, position: user.position, fullname})
         })
     }
 
@@ -60,6 +64,16 @@ export class RegisterStaff{
             return res.status(200).send({message:"user found", user})
 
 
+
+        })
+    }
+
+    getAllUsers(req: express.Request, res: express.Response):void{
+        Register.find( (err: any, users: any) => {
+            if(err)
+                return res.status(400).json({"message":"Ops sorry please try again"})
+   
+            return res.status(200).send({message:"user found", users})
 
         })
     }
@@ -86,6 +100,17 @@ export class RegisterStaff{
 
 
         })
+    }
+
+
+    deleteUser(req: express.Request, res: express.Response): void{
+        Register.findByIdAndDelete({_id: req.query.id}, function (err: any) {
+            if(err) 
+                return res.status(400).json({"message":"Ops sorry please try again"})
+
+                return res.status(200).json({"done":"successfully deleted"})
+
+          });
     }
 
 

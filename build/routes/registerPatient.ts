@@ -9,6 +9,10 @@ let auth = new Authorization()
 function Router(){
     registerRouter.route('/')
         .post(auth.ifToken, patient.savePatient)
+        .get(patient.getAllPatients)
+     registerRouter.route('/single')
+        .get(patient.getPatientById)
+        .delete(patient.deleteUser)
    
 
     return registerRouter

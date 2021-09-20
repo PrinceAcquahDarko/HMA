@@ -25,4 +25,34 @@ export class PatientRegistration {
 
         })
     }
+
+    getAllPatients(req: express.Request, res: express.Response): void{
+        Patient.find( (err: any, users: any) => {
+            if(err)
+                return res.status(400).json({"message":"Ops sorry please try again"})
+   
+            return res.status(200).send({message:"user found", users})
+
+        })
+        
+    }
+
+    getPatientById(req: express.Request, res: express.Response): void{
+        Patient.find({key: req.query.key}, (err: any, user: any) => {
+            if(err)
+                return res.status(400).json({"message":"Ops sorry please try again"})
+            return res.status(200).send({message:"user found", user})
+
+        })
+    }
+
+    deleteUser(req: express.Request, res: express.Response): void{
+        Patient.findByIdAndDelete({_id: req.query.id}, function (err: any) {
+            if(err) 
+                return res.status(400).json({"message":"Ops sorry please try again"})
+
+                return res.status(200).json({"done":"successfully deleted"})
+
+          });
+        }
 }

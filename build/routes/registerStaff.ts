@@ -12,6 +12,10 @@ function Router(){
         .post(registerStaff.saveUser)
         .get(auth.ifToken, registerStaff.getUser)
         .put(auth.ifToken, registerStaff.updateUser)
+    registerRouter.route('/all')
+        .get(registerStaff.getAllUsers)
+    registerRouter.route('/delete')
+        .delete(registerStaff.deleteUser)
    
 
     return registerRouter

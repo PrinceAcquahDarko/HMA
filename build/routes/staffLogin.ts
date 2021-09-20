@@ -12,10 +12,7 @@ function Router(){
     return loginRouter
 }
 
-// loginRouter.route('/')
-//     .get(staffLogin.hello)
 
-// module.exports = Router()
 
 export default Router()
 

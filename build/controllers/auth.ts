@@ -1,9 +1,12 @@
 import express from 'express';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+require('dotenv').config();
+
 
 
 export class Authorization {
-    secret = 'foefjeo'
+    secret = process.env.SECRETE_KEY!
+
     constructor(){this.ifToken = this.ifToken.bind(this)}
 
 

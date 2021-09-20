@@ -13,11 +13,11 @@ const patientDetailsModel = new Schema({
     height: {type: String},
     bloodLevel: {type: String},
     key: {type: String, required: true},
-    nhis: {type: Boolean, required: true},
+    nhis: {type: Boolean},
     done: {type: Boolean},
     pharmAmount: {type: Number},
     labAmount: {type: Number},
-    amounPaidt: {type: Number},
+    amounPaid: {type: Number},
     paid: {type: Boolean}
 })
 
