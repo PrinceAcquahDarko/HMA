@@ -1,5 +1,5 @@
 # Hospital Management System
- The backend repo for my hospital management app built in typescript
+ The backend repo for my hospital management app built in typescript visit frontend written in angular here https://github.com/PrinceAcquahDarko/hma_frontend.git
  
 ## Description
  The hospital management system app was built to be used by hospitals and clinics to help in their regular collection of data and to keep track of patients who visit the hospital
